@@ -1,6 +1,7 @@
 package datasources
 
 import (
+	"fance/app/tasks/repositories"
 	"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
@@ -10,6 +11,7 @@ import (
 // Add gorm models to be auto migrated at the moment of build
 func Migrate(db *gorm.DB) {
 	db.AutoMigrate(
+		&repositories.DbTask{},
 	)
 }
 
