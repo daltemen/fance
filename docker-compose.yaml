@@ -1,0 +1,36 @@
+version: '3.7'
+
+services:
+  fance-db:
+    image: mysql:5.7
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
+    environment:
+      MYSQL_ROOT_PASSWORD: $DB_PASSWORD
+      MYSQL_DATABASE: $DB_NAME
+    networks:
+      - fance_net
+    ports:
+      - 4611:3306
+  fance-api:
+    build: .
+    ports:
+      - 5007:$PORT
+    networks:
+      - fance_net
+    volumes:
+      - .:/fance
+    env_file:
+      - .env
+    depends_on:
+      - fance-db
+    entrypoint: CompileDaemon -log-prefix=false -build="go build -o rest_server -v app/cmd/main.go" -command="./rest_server"
+
+networks:
+  fance_net:
+    name: fance_net
+    driver: bridge
+volumes:
+  db_data:
