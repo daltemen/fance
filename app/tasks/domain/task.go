@@ -1,4 +1,4 @@
-package tasks
+package domain
 
 import (
 	"github.com/gofrs/uuid"

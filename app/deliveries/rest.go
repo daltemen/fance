@@ -3,6 +3,7 @@ package deliveries
 import (
 	"fance/app/datasources"
 	"fance/app/tasks/managers"
+	"fance/app/tasks/repositories"
 	"fance/app/tasks/rest"
 	"os"
 
@@ -14,8 +15,9 @@ func RunRestServer() {
 	db := datasources.ConnectDb()
 	datasources.Migrate(db)
 	// -- conn Interfaces
-	reader := managers.NewReaderManager()
-	writer := managers.NewWriterManager()
+	repository := repositories.NewSqlTasksRepository(db)
+	reader := managers.NewReaderManager(repository)
+	writer := managers.NewWriterManager(repository)
 	restMethods := rest.NewRest(reader, writer)
 	// -- init rest server
 	e := echo.New()

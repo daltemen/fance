@@ -1,12 +1,16 @@
 package managers
 
-import "context"
+import (
+	"context"
+	"fance/app/tasks/repositories"
+)
 
 type writerManager struct {
+	Repository repositories.Repository
 }
 
-func NewWriterManager() Writer {
-	return &writerManager{}
+func NewWriterManager(repository repositories.Repository) Writer {
+	return &writerManager{Repository: repository}
 }
 
 func (w *writerManager) Create(ctx context.Context, task *TaskInfo) (*TaskInfo, error) {
