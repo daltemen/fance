@@ -19,7 +19,7 @@ func (s *sqlTasksRepository) GetAll(ctx context.Context, page int, limit int) ([
 	var tasks []DbTask
 
 	pagination.Paging(&pagination.Param{
-		DB:      s.Conn.Where("id > ?", 0),
+		DB:      s.Conn.Where("id is not null"),
 		Page:    page,
 		Limit:   limit,
 		OrderBy: []string{"id desc"},
