@@ -46,7 +46,7 @@ var (
 func (suite *sqlRepositorySuite) TestSqlTasksRepository_GetAll() {
 	tasksReply := getTasksDbReply()
 	mocket.Catcher.Reset().NewMock().
-		WithQuery(`SELECT * FROM "db_tasks"  WHERE (id > 0) ORDER BY id desc LIMIT 1 OFFSET 0`).
+		WithQuery(`SELECT * FROM "db_tasks"  WHERE (id is not null) ORDER BY id desc LIMIT 1 OFFSET 0`).
 		WithReply(tasksReply)
 	tasks, err := suite.repository.GetAll(suite.ctx, 1, 1)
 	suite.NoError(err)
